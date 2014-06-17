@@ -1,0 +1,63 @@
+require 'rails_helper'
+
+feature 'user adds a new TV show character', %Q{
+  As a site visitor
+  I want to add my favorite TV show characters
+  So that other people can enjoy their crazy antics
+} do
+
+  #Acceptance Criteria:
+  # * I can access a form to add a character on a TV show's page
+  # * I must specify the character's name and the actor's name
+  # * I can optionally provide a description
+  # * If I do not provide the required information, I receive an error message
+  # * If the character already exists in the database, I receive an error message
+
+  scenario 'user adds a new TV show character' do
+    attrs = {
+      character_name: "Daenerys Targaryen",
+      actor_name: "Emilia Clarke",
+      description: "Daenerys Targaryen is the daughter of King Aerys II Targaryen and is one of the last surviving members of House Targaryen.",
+      tv_show_id: 1
+    }
+
+    character = Character.new(attrs)
+
+    visit '/television_shows/1/characters/new'
+    fill_in 'Character', with: show.character_name
+    fill_in 'Actor Name', with: show.actor_name
+    fill_in 'Character Description', with: show.description
+    click_on 'Submit Character'
+
+    expect(page).to have_content 'Success'
+    expect(page).to have_content show.character_name
+    expect(page).to_not have_content show.description
+  end
+
+  scenario 'without required attributes' do
+    visit '/television_shows/1/characters/new'
+    click_on 'Submit Character'
+
+    expect(page).to_not have_content 'Success'
+    expect(page).to have_content "Character info cannot be blank."
+  end
+
+  scenario 'user cannot add a character that is already in the database' do
+    attrs = {
+      character_name: "Daenerys Targaryen",
+      actor_name: "Emilia Clarke"
+    }
+
+    character = Character.new(attrs)
+
+    visit '/television_shows/1/characters/new'
+    fill_in 'Character Name', with: show.character_name
+    fill_in 'Actor Name', with: show.actor_name
+    click_on 'Submit'
+
+    expect(page).to_not have_content 'Success'
+    expect(page).to have_content "Character already exists."
+  end
+
+
+end

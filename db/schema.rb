@@ -14,7 +14,7 @@
 ActiveRecord::Schema.define(version: 20140617200759) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_ex tension "plpgsql"
+  enable_extension "plpgsql"
 
   create_table "characters", force: true do |t|
     t.string  "character_name", null: false
