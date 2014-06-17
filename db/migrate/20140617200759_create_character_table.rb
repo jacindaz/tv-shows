@@ -1,10 +1,10 @@
 class CreateCharacterTable < ActiveRecord::Migration
   def change
     create_table :characters do |t|
-      t.string :title, null: false
-      t.string :network
+      t.string :character_name, null: false
+      t.string :actor_name, null: false
+      t.text :description
+      t.integer :tv_show_id, null: false
     end
-
-    add_index :television_shows, [:title, :network], unique: true
   end
 end
