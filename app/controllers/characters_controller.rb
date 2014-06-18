@@ -17,11 +17,13 @@ class CharactersController < ApplicationController
 
   def create
     @title = "Create a new Character"
-    @tv_show = TelevisionShow.find(params[:id])
+    @tv_show = TelevisionShow.find(params[:television_show_id])
     @character = Character.new(character_params)
-    @character.tv_show = @tv_show
+    #binding.pry
+    @character.tv_show_id = @tv_show.id
 
     if @character.save
+      flash[:notice] = "Success!"
       redirect_to "/television_shows/#{@character.tv_show_id}/characters"
     else
       flash[:notice] = "I'm sorry, the character couldn't be saved."
