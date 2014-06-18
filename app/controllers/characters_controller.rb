@@ -35,6 +35,12 @@ class CharactersController < ApplicationController
     end
   end
 
+  def destroy
+    @tv_show = TelevisionShow.find(params[:television_show_id])
+    Character.destroy(params[:id])
+    redirect_to television_show_characters_path(@tv_show.id), :notice => "Character deleted."
+  end
+
   def character_params
     params.require(:character).permit(:character_name, :actor_name, :description)
   end

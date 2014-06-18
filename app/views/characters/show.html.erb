@@ -5,3 +5,5 @@
 <h4>About <%= @tv_show.title %></h4>
 <i><%= @tv_show.network %> | <%= @tv_show.years %></i>
 <p><%= @tv_show.synopsis %></p>
+
+<%= link_to "Delete Character", television_show_character_path, method: :delete %>
