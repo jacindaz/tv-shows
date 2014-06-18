@@ -8,8 +8,8 @@ class CharactersController < ApplicationController
 
   def show
     @tv_show = TelevisionShow.find(params[:television_show_id])
-    @character = Character.new
-    @title = "All Characters"
+    @character = Character.find(params[:id])
+    @title = "Learn about #{@character.character_name}"
   end
 
   def new
