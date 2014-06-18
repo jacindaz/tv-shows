@@ -23,7 +23,7 @@ feature 'user adds a new TV show', %Q{
 
     visit '/television_shows/new'
     fill_in 'Title', with: show.title
-    fill_in 'Network', with: show.network
+    fill_in 'Network', with: show.networkoh
     fill_in 'Years', with: show.years
     fill_in 'Synopsis', with: show.synopsis
     click_on 'Submit'

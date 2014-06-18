@@ -5,10 +5,12 @@ class TelevisionShowsController < ApplicationController
 
   def show
     @television_show = TelevisionShow.find(params[:id])
+    @character = Character.new
   end
 
   def new
     @television_show = TelevisionShow.new
+    @character = Character.new
   end
 
   def create

@@ -14,24 +14,36 @@ feature 'user adds a new TV show character', %Q{
   # * If the character already exists in the database, I receive an error message
 
   scenario 'user adds a new TV show character' do
+
+    attrs_tv = {
+      title: 'Game of Thrones',
+      network: 'HBO',
+      years: '2011-',
+      synopsis: 'Seven noble families fight for control of the mythical land of Westeros.'
+    }
+
+    tv_show = TelevisionShow.create(attrs_tv)
+
     attrs = {
       character_name: "Daenerys Targaryen",
       actor_name: "Emilia Clarke",
       description: "Daenerys Targaryen is the daughter of King Aerys II Targaryen and is one of the last surviving members of House Targaryen.",
-      tv_show_id: 1
+      tv_show_id: tv_show.id
     }
 
     character = Character.new(attrs)
 
-    visit '/television_shows/1/characters/new'
-    fill_in 'Character', with: show.character_name
-    fill_in 'Actor Name', with: show.actor_name
-    fill_in 'Character Description', with: show.description
-    click_on 'Submit Character'
+    visit "/television_shows/#{tv_show.id}"
+    #save_and_open_page
+
+    fill_in 'Character name', with: character.character_name
+    fill_in 'Actor name', with: character.actor_name
+    fill_in 'Description', with: character.description
+    click_on 'Submit'
 
     expect(page).to have_content 'Success'
-    expect(page).to have_content show.character_name
-    expect(page).to_not have_content show.description
+    expect(page).to have_content character.character_name
+    expect(page).to_not have_content character.description
   end
 
   scenario 'without required attributes' do
@@ -51,8 +63,8 @@ feature 'user adds a new TV show character', %Q{
     character = Character.new(attrs)
 
     visit '/television_shows/1/characters/new'
-    fill_in 'Character Name', with: show.character_name
-    fill_in 'Actor Name', with: show.actor_name
+    fill_in 'Character name', with: character.character_name
+    fill_in 'Actor name', with: character.actor_name
     click_on 'Submit'
 
     expect(page).to_not have_content 'Success'
