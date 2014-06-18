@@ -11,6 +11,12 @@
 
 <%= form_for [@television_show, @character] do |f| %>
 
+<% if [@television_show, @character].errors.any? %>
+  <% @character.full_messages.each do |msg| %>
+    <%= msg %><br>
+  <% end %>
+<% end %>
+
 <div>
   <%= f.label :character_name %>
   <%= f.text_field :character_name %>

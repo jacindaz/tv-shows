@@ -46,30 +46,50 @@ feature 'user adds a new TV show character', %Q{
     expect(page).to_not have_content character.description
   end
 
-  # scenario 'without required attributes' do
-  #   visit '/television_shows/1/characters/new'
-  #   click_on 'Submit Character'
+  scenario 'without required attributes' do
 
-  #   expect(page).to_not have_content 'Success'
-  #   expect(page).to have_content "Character info cannot be blank."
-  # end
+    attrs_tv = {
+      title: 'Game of Thrones',
+      network: 'HBO',
+      years: '2011-',
+      synopsis: 'Seven noble families fight for control of the mythical land of Westeros.'
+    }
 
-  # scenario 'user cannot add a character that is already in the database' do
-  #   attrs = {
-  #     character_name: "Daenerys Targaryen",
-  #     actor_name: "Emilia Clarke"
-  #   }
+    tv_show = TelevisionShow.create(attrs_tv)
 
-  #   character = Character.new(attrs)
+    visit "/television_shows/#{tv_show.id}"
+    click_on 'Submit Character'
 
-  #   visit '/television_shows/1/characters/new'
-  #   fill_in 'Character name', with: character.character_name
-  #   fill_in 'Actor name', with: character.actor_name
-  #   click_on 'Submit'
+    expect(page).to_not have_content 'Success'
+    expect(page).to have_content "Character info cannot be blank."
+  end
 
-  #   expect(page).to_not have_content 'Success'
-  #   expect(page).to have_content "Character already exists."
-  # end
+  scenario 'user cannot add a character that is already in the database' do
+
+    attrs_tv = {
+      title: 'Game of Thrones',
+      network: 'HBO',
+      years: '2011-',
+      synopsis: 'Seven noble families fight for control of the mythical land of Westeros.'
+    }
+
+    tv_show = TelevisionShow.create(attrs_tv)
+
+    attrs = {
+      character_name: "Daenerys Targaryen",
+      actor_name: "Emilia Clarke"
+    }
+
+    character = Character.new(attrs)
+
+    visit "/television_shows/#{tv_show.id}"
+    fill_in 'Character name', with: character.character_name
+    fill_in 'Actor name', with: character.actor_name
+    click_on 'Submit'
+
+    expect(page).to_not have_content 'Success'
+    expect(page).to have_content "Character already exists."
+  end
 
 
 end
